@@ -140,7 +140,7 @@ func TestDriverWithDBCatalog(t *testing.T) {
 	if tableName == "" {
 		tableName = "catalog_test_table"
 	}
-	connStr := fmt.Sprintf("catalog=%s&db=%s&output_location=s3://%s/output", getDBCatalog(), AthenaDatabase, S3Bucket)
+	connStr := fmt.Sprintf("catalog=%s&db=%s&output_location=s3://%s/output", catalogName, AthenaDatabase, S3Bucket)
 	db, err := sql.Open("athena", connStr)
 	require.NoError(t, err, "Open")
 	defer db.Close()
@@ -269,8 +269,4 @@ func (t athenaDate) String() string {
 
 func (t athenaDate) Equal(t2 athenaDate) bool {
 	return time.Time(t).Equal(time.Time(t2))
-}
-
-func getDBCatalog() string {
-	return os.Getenv("ATHENA_CATALOG")
 }
